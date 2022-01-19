@@ -65,7 +65,7 @@ contract RequestFactory {
         uint256 _amount,
         uint256 _paybackAmount,
         string memory _purpose,
-        address payable _origin,
+        address payable _origin
 
     ) public returns (address borrowingOffer) {
         // check if asker is verifyable

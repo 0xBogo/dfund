@@ -93,10 +93,11 @@ contract RequestManagement {
             _amount,
             _paybackAmount,
             _purpose,
-            msg.sender,
-            _collateralToken,
-            _collateralAmount,
-            _duration
+            msg.sender
+    
+            // _collateralToken
+            // _collateralAmount
+            // _duration
         );
 
         // update number of requests for asker
@@ -193,10 +194,10 @@ contract RequestManagement {
     function withdrawCollateral(address payable _lendingRequest) public {
         require(validRequest[_lendingRequest], "invalid request");
 
-        address asker = LendingRequestInterface(_lendingRequest).withdrawCollateral(msg.sender);
-        if (asker != address(0)) {
-            ratings[asker]--;
-        }
+        // address asker = LendingRequestInterface(_lendingRequest).withdrawCollateral(msg.sender);
+        // if (asker != address(0)) {
+        //     ratings[asker]--;
+        // }
     }
 
     /**

@@ -1,6 +1,6 @@
 const HDWalletProvider = require("truffle-hdwallet-provider");
-const INFURA_API_KEY = process.env.INFURA_API_KEY;
-const MNEMONIC = process.env.MNEMONIC;
+const INFURA_API_KEY = "9aa3d95b3bc440fa88ea12eaa4456161";
+const MNEMONIC = "blush demand other tomorrow fun rival tip annual climb connect clip club"
 const ropstenProvider = MNEMONIC
     ? new HDWalletProvider(
           MNEMONIC,
@@ -32,10 +32,11 @@ module.exports = {
             network_id: "*" // Any network (default: none)
         },
         ropsten: {
+            networkCheckTimeout: 10000, 
             provider: ropstenProvider,
             gas: 8000000,
             gasPrice: 30000000000,
-            from: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            from: "0xC2a5ea1d4406EC5fdd5eDFE0E13F59124C7e9803",
             network_id: 3,
             skipDryRun: false
         }

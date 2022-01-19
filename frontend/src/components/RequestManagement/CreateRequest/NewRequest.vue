@@ -8,48 +8,72 @@
       <div class="title">Create Lending Request</div>
       <div class="newRequest__numberInputs">
         <div class="input-group newRequest__credit">
-          <input
-            type="text"
-            onkeydown="return (/^[0-9.]$/.test(event.key) ||
-          event.key === 'Backspace')"
-            id="newRequest__credit"
-            class="form-control"
-            v-model="credit"
-            v-bind:class="{
-              hasContent: credit.length > 0,
-              invalidInput: invalidCredit,
-            }"
-          />
-          <label for="newRequest__credit">Ask for (ETH)</label>
+          <div>
+            <div class = "tooltip">
+              Please input the amount wants to borrow
+            </div>
+            <img src='../../../assets/info.png' alt = "info" width = '20px' height = '20px' />
+          </div>
+          <div>
+            <input
+              type="text"
+              onkeydown="return (/^[0-9.]$/.test(event.key) ||
+            event.key === 'Backspace')"
+              id="newRequest__credit"
+              class="form-control"
+              v-model="credit"
+              v-bind:class="{
+                hasContent: credit.length > 0,
+                invalidInput: invalidCredit,
+              }"
+            />
+            <label for="newRequest__credit">Ask for (ETH)</label>
+          </div>
         </div>
         <div class="input-group newRequest__payback">
-          <input
-            type="text"
-            onkeydown="return (/^[0-9.]$/.test(event.key) ||
-          event.key === 'Backspace')"
-            id="newRequest__payback"
-            class="form-control"
-            v-model="payback"
-            v-bind:class="{
-              hasContent: payback.length > 0,
-              invalidInput: invalidPayback,
-            }"
-          />
-          <label for="newRequest__payback">Payback (ETH)</label>
+          <div>
+            <div class = "tooltip">
+                Please input the amount is willing to pay the lender after getting the loan.
+            </div>
+            <img src='../../../assets/info.png' alt = "info" width = '20px' height = '20px' />
+          </div>
+          <div>
+            <input
+              type="text"
+              onkeydown="return (/^[0-9.]$/.test(event.key) ||
+            event.key === 'Backspace')"
+              id="newRequest__payback"
+              class="form-control"
+              v-model="payback"
+              v-bind:class="{
+                hasContent: payback.length > 0,
+                invalidInput: invalidPayback,
+              }"
+            />
+            <label for="newRequest__payback">Payback (ETH)</label>
+          </div>
         </div>
       </div>
       <div class="input-group newRequest__description">
-        <input
-          type="text"
-          id="newRequest__description"
-          class="form-control"
-          v-model="description"
-          v-bind:class="{
-            hasContent: description.length > 0,
-            invalidInput: invalidDescription,
-          }"
-        />
-        <label for="newRequest__description">Request Description</label>
+          <div>
+            <div class = "tooltip">
+              Please input descriptions about new request.
+            </div>
+            <img src='../../../assets/info.png' alt = "info" width = '20px' height = '20px' />
+          </div>
+          <div>
+            <input
+              type="text"
+              id="newRequest__description"
+              class="form-control"
+              v-model="description"
+              v-bind:class="{
+                hasContent: description.length > 0,
+                invalidInput: invalidDescription,
+              }"
+            />
+            <label for="newRequest__description">Request Description</label>
+          </div>
       </div>
       <div class="newRequest__button btn btn--form" @click="submit">Submit</div>
     </div>
@@ -58,7 +82,6 @@
 
 <script>
 import { RequestManagementService } from '../../../services/requestManagement/RequestManagementService'
-
 export default {
   data() {
     return {
