@@ -136,7 +136,7 @@ contract BorrowingOffer {
 
     function withdrawCollateral() external returns (address) {
         if (msg.sender == lender && !debtSettled) {
-            IERC20(collateralToken).transfer(to, collateralAmount);
+            IERC20(collateralToken).transfer(lender, collateralAmount);
             return asker;
         }
         return address(0);
