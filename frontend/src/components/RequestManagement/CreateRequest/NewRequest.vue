@@ -9,10 +9,15 @@
       <div class="newRequest__numberInputs">
         <div class="input-group newRequest__credit">
           <div>
-            <div class = "tooltip">
+            <div class="tooltip">
               Please input the amount wants to borrow
             </div>
-            <img src='../../../assets/info.png' alt = "info" width = '20px' height = '20px' />
+            <img
+              src="../../../assets/info.png"
+              alt="info"
+              width="20px"
+              height="20px"
+            />
           </div>
           <div>
             <input
@@ -32,10 +37,16 @@
         </div>
         <div class="input-group newRequest__payback">
           <div>
-            <div class = "tooltip">
-                Please input the amount is willing to pay the lender after getting the loan.
+            <div class="tooltip">
+              Please input the amount is willing to pay the lender after getting
+              the loan.
             </div>
-            <img src='../../../assets/info.png' alt = "info" width = '20px' height = '20px' />
+            <img
+              src="../../../assets/info.png"
+              alt="info"
+              width="20px"
+              height="20px"
+            />
           </div>
           <div>
             <input
@@ -55,25 +66,30 @@
         </div>
       </div>
       <div class="input-group newRequest__description">
-          <div>
-            <div class = "tooltip">
-              Please input descriptions about new request.
-            </div>
-            <img src='../../../assets/info.png' alt = "info" width = '20px' height = '20px' />
+        <div>
+          <div class="tooltip">
+            Please input descriptions about new request.
           </div>
-          <div>
-            <input
-              type="text"
-              id="newRequest__description"
-              class="form-control"
-              v-model="description"
-              v-bind:class="{
-                hasContent: description.length > 0,
-                invalidInput: invalidDescription,
-              }"
-            />
-            <label for="newRequest__description">Request Description</label>
-          </div>
+          <img
+            src="../../../assets/info.png"
+            alt="info"
+            width="20px"
+            height="20px"
+          />
+        </div>
+        <div>
+          <input
+            type="text"
+            id="newRequest__description"
+            class="form-control"
+            v-model="description"
+            v-bind:class="{
+              hasContent: description.length > 0,
+              invalidInput: invalidDescription,
+            }"
+          />
+          <label for="newRequest__description">Request Description</label>
+        </div>
       </div>
       <div class="newRequest__button btn btn--form" @click="submit">Submit</div>
     </div>
