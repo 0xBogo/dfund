@@ -9,7 +9,12 @@
       <router-link
         :to="{ name: 'allRequests' }"
         class="navbar__right navbar__right--firstItem"
-        v-if="$route.matched.some((record) => (record.name === 'allRequests' || record.name === 'userRequests'))"
+        v-if="
+          $route.matched.some(
+            (record) =>
+              record.name === 'allRequests' || record.name === 'userRequests'
+          )
+        "
         v-bind:class="{
           navbar__active: $route.name === 'allRequests',
         }"
@@ -18,7 +23,13 @@
       <router-link
         :to="{ name: 'allBorrowOffers' }"
         class="navbar__right navbar__right--firstItem"
-        v-if="$route.matched.some((record) => (record.name === 'allBorrowOffers' || record.name === 'userBorrowOffers'))"
+        v-if="
+          $route.matched.some(
+            (record) =>
+              record.name === 'allBorrowOffers' ||
+              record.name === 'userBorrowOffers'
+          )
+        "
         v-bind:class="{
           navbar__active: $route.name === 'allBorrowOffers',
         }"
@@ -36,7 +47,9 @@
       <router-link
         :to="{ name: 'userBorrowOffers' }"
         class="navbar__right navbar__right--secondItem"
-        v-if="$route.matched.some((record) => record.name === 'allBorrowOffers')"
+        v-if="
+          $route.matched.some((record) => record.name === 'allBorrowOffers')
+        "
         v-bind:class="{
           navbar__active: $route.name === 'userBorrowOffers',
         }"
