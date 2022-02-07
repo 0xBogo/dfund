@@ -65,6 +65,38 @@
           </div>
         </div>
       </div>
+      <div class="newRequest__numberInputs">
+        <div class="input-group newRequest__credit">
+          <div>
+            <div class="tooltip">
+              Please input Collateral Amount
+            </div>
+            <img
+              src="../../../assets/info.png"
+              alt="info"
+              width="20px"
+              height="20px"
+            />
+          </div>
+          <div>
+            <input
+              type="text"
+              onkeydown="return (/^[0-9.]$/.test(event.key) ||
+            event.key === 'Backspace')"
+              id="newRequest__collaterial"
+              class="form-control"
+              v-model="collaterial"
+              v-bind:class="{
+                hasContent: collaterial.length > 0,
+                invalidInput: invalidCredit,
+              }"
+            />
+            <label for="newRequest__collaterial">Collateral Amount</label>
+          </div>
+        </div>
+        <DatePicker/>
+      </div>
+      
       <div class="input-group newRequest__description">
         <div>
           <div class="tooltip">
@@ -98,9 +130,15 @@
 
 <script>
 import { RequestManagementService } from '../../../services/requestManagement/RequestManagementService'
+import DatePicker from '../../../components/DatePicker.vue'
 export default {
+  name: 'app',
+  components: {
+    DatePicker
+  },
   data() {
     return {
+      collaterial : '',
       credit: '',
       payback: '',
       description: '',

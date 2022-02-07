@@ -36,6 +36,15 @@
   transition: opacity 0.3s;
 }
 
+.vdp-datepicker>div>input{
+  height : 25px;
+  border-radius : 20px;
+  width : 245px;
+  :focus-visible{
+    outline : none!important;
+  }
+}
+
 .tooltip::after {
   content: "";
   position: absolute;
