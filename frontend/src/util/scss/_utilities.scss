@@ -295,6 +295,12 @@
   }
 }
 
+.ppc {
+  &__textInfo {
+    background-color: #280707 !important;
+  }
+}
+
 // layout changes for mobile device(s)
 @media (max-width: 900px) {
   .card {
