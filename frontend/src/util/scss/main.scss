@@ -1,6 +1,9 @@
 @import 'variables';
 @import 'utilities';
 
+html {
+  height: 100vh;
+}
 // reset general styles
 * {
   margin: 0;
