@@ -33,8 +33,7 @@
   all: unset;
   height: 50px;
   width: 320px;
-  // background-color: $bg-blue;
-  background-color: $bg-orange;
+  background-color: $bg-blue;
   outline: none;
   cursor: pointer;
   display: flex;
@@ -131,8 +130,7 @@
   width: 400px;
   height: 465px;
   border-radius: 4px;
-  // background-color: $bg-white;
-  background-color: #0d0d0d85;
+  background-color: $bg-white;
   box-shadow: 0 0 20px 0 $card-shadow;
   display: grid;
   justify-items: center;
@@ -162,6 +160,17 @@
   }
 
   &--newRequest {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 669px;
+    width: 669px;
+    grid-template-rows: repeat(4, 1fr);
+    align-items: center;
+  }
+
+  &--newOffer {
     position: absolute;
     top: 50%;
     left: 50%;

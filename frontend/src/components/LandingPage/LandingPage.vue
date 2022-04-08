@@ -22,6 +22,17 @@
   <div class="landingPage" v-else>
     <div class="card card--twoRows">
       <div class="card__title-section">
+        <div class="title">Borrowing</div>
+        <div class="subtitle"
+          >If you want to apply for a loan or finance a loan, this way.</div
+        >
+      </div>
+      <router-link :to="{ name: 'allBorrowOffers' }" class="btn"
+        >Borrowing Area</router-link
+      >
+    </div>
+    <div class="card card--twoRows">
+      <div class="card__title-section">
         <div class="title">Lending</div>
         <div class="subtitle"
           >If you want to apply for a loan or finance a loan, this way.</div

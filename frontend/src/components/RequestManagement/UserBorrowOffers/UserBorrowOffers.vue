@@ -1,8 +1,8 @@
 <template>
-  <div class="userRequests">
-    <div class="userRequests__title">Requests</div>
+  <div class="userBorrowOffers">
+    <div class="userBorrowOffers__title">Offers</div>
     <div class="table__wrapper">
-      <table class="table" v-if="filteredRequests.length > 0">
+      <table class="table" v-if="filteredOffers.length > 0">
         <thead>
           <tr>
             <th class="table__head table__head--id"></th>
@@ -16,7 +16,7 @@
         <tbody>
           <tr
             class="table__row"
-            v-for="(item, index) in filteredRequests"
+            v-for="(item, index) in filteredOffers"
             :key="index"
           >
             <td class="table__data table__data--id">{{ index + 1 }}</td>
@@ -50,6 +50,12 @@
                 class="btn btn--table"
                 @click="payback(item.address)"
                 v-if="item.isAsker && item.status === 'Withdrawn'"
+                >Deposit back</div
+              >
+              <div
+                class="btn btn--table"
+                @click="lend(item.address)"
+                v-if="item.isLender && item.status === 'Waiting'"
                 >Deposit</div
               >
               <div
@@ -71,12 +77,12 @@
       <table class="table" v-else>
         <thead>
           <tr>
-            <th class="table__head table__head--empty">Requests</th>
+            <th class="table__head table__head--empty">Offers</th>
           </tr>
         </thead>
         <tbody>
           <tr class="table__row">
-            <td class="table__data table__data--empty">No Requests Found</td>
+            <td class="table__data table__data--empty">No Offers Found</td>
           </tr>
         </tbody>
       </table>
@@ -91,16 +97,16 @@ import { RequestManagementService } from '../../../services/requestManagement/Re
 
 export default {
   computed: {
-    ...mapState('requestManagement', ['requests']),
+    ...mapState('requestManagement', ['offers']),
   },
   data() {
     return {
-      filteredRequests: [],
+      filteredOffers: [],
     }
   },
   methods: {
-    async getRequests() {
-      this.filteredRequests = []
+    async getOffers() {
+      this.filteredOffers = []
 
       const user = await Web3Service.getUser()
       if (!user) {
@@ -110,19 +116,19 @@ export default {
       const locale = navigator.userLanguage || navigator.language
       const comparableAddress = String(user).toLocaleUpperCase(locale)
 
-      this.requests.forEach((element) => {
+      this.offers.forEach((element) => {
         if (
           comparableAddress === String(element.asker).toLocaleUpperCase(locale)
         ) {
           element.isAsker = true
-          this.filteredRequests.push(element)
+          this.filteredOffers.push(element)
         }
 
         if (
           comparableAddress === String(element.lender).toLocaleUpperCase(locale)
         ) {
           element.isLender = true
-          this.filteredRequests.push(element)
+          this.filteredOffers.push(element)
         }
       })
     },
@@ -130,23 +136,26 @@ export default {
       RequestManagementService.cancel(address)
     },
     withdraw(address) {
-      RequestManagementService.withdraw(address)
+      RequestManagementService.withdrawForOffer(address)
     },
     payback(address) {
       RequestManagementService.payback(address)
     },
+    lend(address) {
+      RequestManagementService.lend(address)
+    }
   },
   watch: {
-    requests() {
-      this.getRequests()
+    offers() {
+      this.getOffers()
     },
   },
   mounted() {
-    this.getRequests()
+    this.getOffers()
   },
 }
 </script>
 
 <style lang="scss">
-@import 'UserRequests';
+@import 'UserBorrowOffers';
 </style>
