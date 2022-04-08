@@ -27,7 +27,6 @@ export const RequestManagementService = {
           address: address,
           asker: requestParameters.asker,
           lender: requestParameters.lender,
-          tokenAddress: requestParameters.tokenAddress,
           askAmount: await Web3Service.convertFromWei(
             requestParameters.askAmount,
             'ether'
@@ -65,18 +64,73 @@ export const RequestManagementService = {
     return requests
   },
 
-  createRequest: async (token, credit, payback, description) => {
+  getOffers: async () => {
+    const offers = []
+    const contract = await RequestManagement.get()
+    if (!contract) {
+      return offers
+    }
+
+    const offerAddresses = await contract.methods.getOffers().call()
+    if (offerAddresses.length <= 0) {
+      return offers
+    }
+
+    await Promise.all(
+      offerAddresses.map(async (address) => {
+        const requestParameters = await contract.methods
+          .getRequestParameters(address)
+          .call()
+        const requestState = await contract.methods
+          .getRequestState(address)
+          .call()
+
+        const request = {
+          address: address,
+          asker: requestParameters.asker,
+          lender: requestParameters.lender,
+          askAmount: await Web3Service.convertFromWei(
+            requestParameters.askAmount,
+            'ether'
+          ),
+          paybackAmount: await Web3Service.convertFromWei(
+            requestParameters.paybackAmount,
+            'ether'
+          ),
+          purpose:
+            requestParameters.purpose.charAt(0).toUpperCase() +
+            requestParameters.purpose.slice(1),
+          verifiedAsker: requestState.verifiedAsker,
+          lent: requestState.lent,
+          withdrawnByAsker: requestState.withdrawnByAsker,
+          debtSettled: requestState.debtSettled,
+          status: 'Waiting',
+        }
+
+        if (request.lent) {
+          request.status = 'Ether Lent'
+        }
+
+        if (request.withdrawnByAsker) {
+          request.status = 'Withdrawn'
+        }
+
+        if (request.debtSettled) {
+          request.status = 'PaidBack'
+        }
+
+        offers.push(request)
+      })
+    )
+
+    return offers
+  },
+
+  createRequest: async (credit, payback, description) => {
     const createRequestReturn = {
-      invalidToken: false,
       invalidCredit: false,
       invalidPayback: false,
       invalidDescription: false,
-    }
-
-    const invalidToken = parseFloat(token.length) <= 0
-    if (invalidToken) {
-      createRequestReturn.invalidToken = true
-      return createRequestReturn
     }
 
     const invalidCredit = parseFloat(credit) <= 0
@@ -111,7 +165,6 @@ export const RequestManagementService = {
       return createRequestReturn
     }
 
-    const tokenAddress = token
     const creditInWei = await Web3Service.convertToWei(String(credit), 'ether')
     const paybackInWei = await Web3Service.convertToWei(
       String(payback),
@@ -119,10 +172,62 @@ export const RequestManagementService = {
     )
 
     contract.methods
-      .ask(tokenAddress, creditInWei, paybackInWei, description)
+      .ask(creditInWei, paybackInWei, description)
       .send({ from: user })
 
     return createRequestReturn
+  },
+
+  createOffer: async (credit, payback, description) => {
+    const createOfferReturn = {
+      invalidCredit: false,
+      invalidPayback: false,
+      invalidDescription: false,
+    }
+
+    const invalidCredit = parseFloat(credit) <= 0
+    if (invalidCredit) {
+      createOfferReturn.invalidCredit = true
+      return createOfferReturn
+    }
+
+    const invalidPayback = parseFloat(payback) <= 0
+    if (invalidPayback) {
+      createOfferReturn.invalidPayback = true
+      return createOfferReturn
+    }
+
+    if (parseFloat(payback) <= parseFloat(credit)) {
+      createOfferReturn.invalidPayback = true
+      return createOfferReturn
+    }
+
+    if (description.length <= 0) {
+      createOfferReturn.invalidDescription = true
+      return createOfferReturn
+    }
+
+    const contract = await RequestManagement.get()
+    if (!contract) {
+      return createOfferReturn
+    }
+
+    const user = await Web3Service.getUser()
+    if (!user) {
+      return createOfferReturn
+    }
+
+    const creditInWei = await Web3Service.convertToWei(String(credit), 'ether')
+    const paybackInWei = await Web3Service.convertToWei(
+      String(payback),
+      'ether'
+    )
+
+    contract.methods
+      .createOffer(creditInWei, paybackInWei, description)
+      .send({ from: user })
+
+    return createOfferReturn
   },
 
   lend: async (address) => {
@@ -149,18 +254,7 @@ export const RequestManagementService = {
       return false
     }
 
-    const tokenAddress = addressParameters.tokenAddress
-    if (tokenAddress.length <= 0) {
-      return false
-    }
-
-    console.log("AAAAADDDDDRRRRRREEEEEEEESSSSSSS: " + tokenAddress);
-    // console.log(contract.methods.deposit(address));
-    // const address_ = contract.methods.deposit(address)
-    // address_.send({ from: user, value: askAmount })
-
     contract.methods.deposit(address).send({ from: user, value: askAmount })
-    // contract.methods.wrappedDeposit(address, tokenAddress, askAmount)
   },
 
   withdraw: async (address) => {
@@ -180,6 +274,25 @@ export const RequestManagementService = {
     }
 
     contract.methods.withdraw(address).send({ from: user })
+  },
+
+  withdrawForOffer: async (address) => {
+    const validAddress = await Web3Service.isValidAddress(address)
+    if (!validAddress) {
+      return false
+    }
+
+    const contract = await RequestManagement.get()
+    if (!contract) {
+      return false
+    }
+
+    const user = await Web3Service.getUser()
+    if (!user) {
+      return false
+    }
+
+    contract.methods.withdrawForOffer(address).send({ from: user })
   },
 
   payback: async (address) => {
@@ -215,6 +328,11 @@ export const RequestManagementService = {
     if (payback <= 0) {
       return false
     }
+
+    console.log("AA: contractFee: " + contractFee);
+    console.log("BB: paybackAmount: " + paybackAmount);
+    console.log("CC: payback: " + payback);
+    console.log("DD: paybackInWei: " + paybackInWei);
 
     contract.methods.deposit(address).send({ from: user, value: paybackInWei })
   },

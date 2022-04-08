@@ -7,6 +7,7 @@ export const requestManagementListeners = async () => {
     throw new Error('requestManagementListeners failed')
   }
 
+  offerCreatedListener(contract)
   requestCreatedListener(contract)
   requestGrantedListener(contract)
   withdrawListener(contract)
@@ -19,6 +20,7 @@ const requestCreatedListener = (contract) => {
     if (txHash !== event.transactionHash) {
       txHash = event.transactionHash
       store.dispatch('requestManagement/getRequests')
+      store.dispatch('requestManagement/getOffers')
     }
   })
 }
@@ -29,6 +31,18 @@ const requestGrantedListener = (contract) => {
     if (txHash !== event.transactionHash) {
       txHash = event.transactionHash
       store.dispatch('requestManagement/getRequests')
+      store.dispatch('requestManagement/getOffers')
+    }
+  })
+}
+
+const offerCreatedListener = (contract) => {
+  let txHash
+  contract.events.OfferCreated().on('data', (event) => {
+    if (txHash !== event.transactionHash) {
+      console.log("MMMMMMMMMMMMMMMM1111: " + event.transactionHash)
+      txHash = event.transactionHash
+      store.dispatch('requestManagement/getOffers')
     }
   })
 }
@@ -39,6 +53,7 @@ const withdrawListener = (contract) => {
     if (txHash !== event.transactionHash) {
       txHash = event.transactionHash
       store.dispatch('requestManagement/getRequests')
+      store.dispatch('requestManagement/getOffers')
     }
   })
 }
@@ -49,6 +64,7 @@ const debtPaidListener = (contract) => {
     if (txHash !== event.transactionHash) {
       txHash = event.transactionHash
       store.dispatch('requestManagement/getRequests')
+      store.dispatch('requestManagement/getOffers')
       store.dispatch('ico/updateIco')
     }
   })

@@ -1,18 +1,15 @@
 <template>
-  <div class="newRequest">
-    <div class="card card--newRequest">
-      <div
-        class="newRequest__close"
-        @click="$emit('closeRequestCreation')"
-      ></div>
-      <div class="title">Create Lending Request</div>
-      <div class="newRequest__numberInputs">
-        <div class="input-group newRequest__credit">
+  <div class="newOffer">
+    <div class="card card--newOffer">
+      <div class="newOffer__close" @click="$emit('closeOfferCreation')"></div>
+      <div class="title">Create Borrowing Offer</div>
+      <div class="newOffer__numberInputs">
+        <div class="input-group newOffer__credit">
           <input
             type="text"
             onkeydown="return (/^[0-9.]$/.test(event.key) ||
           event.key === 'Backspace')"
-            id="newRequest__credit"
+            id="newOffer__credit"
             class="form-control"
             v-model="credit"
             v-bind:class="{
@@ -20,14 +17,14 @@
               invalidInput: invalidCredit,
             }"
           />
-          <label for="newRequest__credit">Ask for (ETH)</label>
+          <label for="newOffer__credit">Lend for (ETH)</label>
         </div>
-        <div class="input-group newRequest__payback">
+        <div class="input-group newOffer__payback">
           <input
             type="text"
             onkeydown="return (/^[0-9.]$/.test(event.key) ||
           event.key === 'Backspace')"
-            id="newRequest__payback"
+            id="newOffer__payback"
             class="form-control"
             v-model="payback"
             v-bind:class="{
@@ -35,13 +32,13 @@
               invalidInput: invalidPayback,
             }"
           />
-          <label for="newRequest__payback">Payback (ETH)</label>
+          <label for="newOffer__payback">Payback (ETH)</label>
         </div>
       </div>
-      <div class="input-group newRequest__description">
+      <div class="input-group newOffer__description">
         <input
           type="text"
-          id="newRequest__description"
+          id="newOffer__description"
           class="form-control"
           v-model="description"
           v-bind:class="{
@@ -49,9 +46,9 @@
             invalidInput: invalidDescription,
           }"
         />
-        <label for="newRequest__description">Request Description</label>
+        <label for="newOffer__description">Offer Description</label>
       </div>
-      <div class="newRequest__button btn btn--form" @click="submit">Submit</div>
+      <div class="newOffer__button btn btn--form" @click="submit">Submit</div>
     </div>
   </div>
 </template>
@@ -72,16 +69,16 @@ export default {
   },
   methods: {
     async submit() {
-      const createRequestReturn = await RequestManagementService.createRequest(
+      const createOfferReturn = await RequestManagementService.createOffer(
         this.credit,
         this.payback,
         this.description
       );
 
       // update error states
-      this.invalidCredit = createRequestReturn.invalidCredit;
-      this.invalidPayback = createRequestReturn.invalidPayback;
-      this.invalidDescription = createRequestReturn.invalidDescription;
+      this.invalidCredit = createOfferReturn.invalidCredit;
+      this.invalidPayback = createOfferReturn.invalidPayback;
+      this.invalidDescription = createOfferReturn.invalidDescription;
 
       // reset input on success
       if (
@@ -95,7 +92,7 @@ export default {
         this.invalidDescription = false;
 
         // close create request overlay
-        this.$emit("closeRequestCreation");
+        this.$emit("closeOfferCreation");
       }
     },
   },
@@ -114,5 +111,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import "NewRequest";
+@import "NewOffer";
 </style>
