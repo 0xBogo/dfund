@@ -94,16 +94,16 @@ const router = new Router({
   ],
 })
 
-router.beforeEach((to, from, next) => {
-  if (store.state.ico.active) {
-    if (to.path === '/' || to.path === '/ico') {
-      next()
-    } else {
-      next({ name: 'home' })
-    }
-  } else {
-    next()
-  }
-})
+// router.beforeEach((to, from, next) => {
+//   if (store.state.ico.active) {
+//     if (to.path === '/' || to.path === '/ico') {
+//       next()
+//     } else {
+//       next({ name: 'home' })
+//     }
+//   } else {
+//     next()
+//   }
+// })
 
 export default router
