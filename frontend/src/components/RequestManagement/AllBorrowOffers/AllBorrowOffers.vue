@@ -1,28 +1,28 @@
 <template>
-  <div class="allRequests">
-    <div class="allRequests__title-wrapper">
-      <div class="allRequests__title">Requests</div>
-      <div class="allRequests__sortOptions">
+  <div class="allBorrowOffers">
+    <div class="allBorrowOffers__title-wrapper">
+      <div class="allBorrowOffers__title">Offers</div>
+      <div class="allBorrowOffers__sortOptions">
         <div
-          class="allRequests__sortOption"
-          @click="getRequests"
-          v-bind:class="{ 'allRequests__sortOption--active': !trustedRequests }"
+          class="allBorrowOffers__sortOption"
+          @click="getOffers"
+          v-bind:class="{ 'allBorrowOffers__sortOption--active': !trustedOffers }"
           >All</div
         >
         <div
-          class="allRequests__sortOption"
-          @click="getTrustedRequests"
-          v-bind:class="{ 'allRequests__sortOption--active': trustedRequests }"
+          class="allBorrowOffers__sortOption"
+          @click="getTrustedOffers"
+          v-bind:class="{ 'allBorrowOffers__sortOption--active': trustedOffers }"
           >Trusted</div
         >
       </div>
     </div>
     <div class="table__wrapper">
-      <table class="table" v-if="filteredRequests.length > 0">
+      <table class="table" v-if="filteredOffers.length > 0">
         <thead>
           <tr>
             <th class="table__head table__head--id"></th>
-            <th class="table__head table__head--asker">Asker</th>
+            <th class="table__head table__head--asker">Lender</th>
             <th class="table__head">Amount</th>
             <th class="table__head">Payback</th>
             <th class="table__head table__head--purpose">Purpose</th>
@@ -33,11 +33,11 @@
         <tbody>
           <tr
             class="table__row"
-            v-for="(item, index) in filteredRequests"
+            v-for="(item, index) in filteredOffers"
             :key="index"
           >
             <td class="table__data table__data--id">{{ index + 1 }}</td>
-            <td class="table__data table__data--purpose">{{ item.asker }}</td>
+            <td class="table__data table__data--purpose">{{ item.lender }}</td>
             <td class="table__data">{{ item.askAmount }} ETH</td>
             <td class="table__data">{{ item.paybackAmount }} ETH</td>
             <td class="table__data">{{ item.purpose }}</td>
@@ -52,7 +52,33 @@
               >
             </td>
             <td class="table__data">
-              <div class="btn btn--table" @click="lend(item.address)">Lend</div>
+              <div
+                class="btn btn--table"
+                @click="lend(item.address)"
+                v-if="
+                  (item.status === 'Ether Lent')
+                "
+                >Borrow</div
+              >
+              <div
+                v-if="
+                  (item.status === 'Waiting' &&
+                    item.status !== 'Ether Lent')
+                "
+                >No deposit yet</div
+              >
+              <div
+                v-if="
+                  (item.status === 'Withdrawn')
+                "
+                >Lent</div
+              >
+              <div
+                v-if="
+                  (item.status === 'PaidBack')
+                "
+                >Paid Back</div
+              >
             </td>
           </tr>
         </tbody>
@@ -60,12 +86,12 @@
       <table class="table" v-else>
         <thead>
           <tr>
-            <th class="table__head table__head--empty">Requests</th>
+            <th class="table__head table__head--empty">Offers</th>
           </tr>
         </thead>
         <tbody>
           <tr class="table__row">
-            <td class="table__data table__data--empty">No Requests Found</td>
+            <td class="table__data table__data--empty">No Offers Found</td>
           </tr>
         </tbody>
       </table>
@@ -80,20 +106,20 @@ import { RequestManagementService } from '../../../services/requestManagement/Re
 
 export default {
   computed: {
-    ...mapState('requestManagement', ['requests']),
+    ...mapState('requestManagement', ['offers']),
   },
   data() {
     return {
-      filteredRequests: [],
-      trustedRequests: false,
+      filteredOffers: [],
+      trustedOffers: false,
     }
   },
   methods: {
     lend(address) {
-      RequestManagementService.lend(address)
+      RequestManagementService.withdraw(address)
     },
-    async getRequests() {
-      this.filteredRequests = []
+    async getOffers() {
+      this.filteredOffers = []
 
       const user = await Web3Service.getUser()
       if (!user) {
@@ -103,20 +129,20 @@ export default {
       const locale = navigator.userLanguage || navigator.language
       const comparableAddress = String(user).toLocaleUpperCase(locale)
 
-      this.requests.forEach((element) => {
-        if (
-          !element.lent &&
-          comparableAddress !== String(element.asker).toLocaleUpperCase(locale)
-        ) {
-          this.filteredRequests.push(element)
-        }
+      this.offers.forEach((element) => {
+        // if (
+        //   !element.lent &&
+        //   comparableAddress !== String(element.asker).toLocaleUpperCase(locale)
+        // ) {
+          this.filteredOffers.push(element)
+        // }
       })
 
       // reflect display option internally
-      this.trustedRequests = false
+      this.trustedOffers = false
     },
-    async getTrustedRequests() {
-      this.filteredRequests = []
+    async getTrustedOffers() {
+      this.filteredOffers = []
 
       const user = await Web3Service.getUser()
       if (!user) {
@@ -126,31 +152,31 @@ export default {
       const locale = navigator.userLanguage || navigator.language
       const comparableAddress = String(user).toLocaleUpperCase(locale)
 
-      this.requests.forEach((element) => {
+      this.offers.forEach((element) => {
         if (
           !element.lent &&
           element.verifiedAsker &&
           comparableAddress !== String(element.asker).toLocaleUpperCase(locale)
         ) {
-          this.filteredRequests.push(element)
+          this.filteredOffers.push(element)
         }
       })
 
       // reflect display option internally
-      this.trustedRequests = true
+      this.trustedOffers = true
     },
   },
   watch: {
-    requests() {
-      this.trustedRequests ? this.getTrustedRequests() : this.getRequests()
+    offers() {
+      this.trustedOffers ? this.getTrustedOffers() : this.getOffers()
     },
   },
   mounted() {
-    this.trustedRequests ? this.getTrustedRequests() : this.getRequests()
+    this.trustedOffers ? this.getTrustedOffers() : this.getOffers()
   },
 }
 </script>
 
 <style lang="scss">
-@import 'AllRequests';
+@import 'AllBorrowOffers';
 </style>

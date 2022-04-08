@@ -45,6 +45,9 @@ export default {
         dispatch('requestManagement/getRequests', null, {
           root: true,
         })
+        dispatch('requestManagement/getOffers', null, {
+          root: true,
+        })
         accountListener()
       }
 
