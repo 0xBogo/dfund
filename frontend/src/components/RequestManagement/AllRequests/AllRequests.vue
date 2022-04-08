@@ -23,6 +23,7 @@
           <tr>
             <th class="table__head table__head--id"></th>
             <th class="table__head table__head--asker">Asker</th>
+            <th class="table__head table__head--asker">Token Address</th>
             <th class="table__head">Amount</th>
             <th class="table__head">Payback</th>
             <th class="table__head table__head--purpose">Purpose</th>
@@ -38,6 +39,7 @@
           >
             <td class="table__data table__data--id">{{ index + 1 }}</td>
             <td class="table__data table__data--purpose">{{ item.asker }}</td>
+            <td class="table__data table__data--purpose">{{ item.tokenAddress }}</td>
             <td class="table__data">{{ item.askAmount }} ETH</td>
             <td class="table__data">{{ item.paybackAmount }} ETH</td>
             <td class="table__data">{{ item.purpose }}</td>

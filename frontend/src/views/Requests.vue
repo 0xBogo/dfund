@@ -31,12 +31,12 @@ import CreateRequest from '../components/RequestManagement/CreateRequest/NewRequ
 
 export default {
   components: {
-    CreateRequest
+    CreateRequest,
   },
   data() {
     return {
       title: '',
-      createActive: false
+      createActive: false,
     }
   },
   methods: {
@@ -69,7 +69,7 @@ export default {
 .requests {
   padding-top: 52px;
   display: grid;
-  grid-template-columns: auto 49px 1007px 49px auto;
+  grid-template-columns: auto 49px auto 49px auto;
   grid-template-rows: 101px auto;
   justify-items: center;
 

@@ -7,7 +7,6 @@ export const accountListener = () => {
     store.dispatch('ico/updateIco')
 
     if (!store.state.ico.active) {
-      store.dispatch('requestManagement/getOffers')
       store.dispatch('requestManagement/getRequests')
       store.dispatch('proposalManagement/refreshProposals')
       store.dispatch('proposalManagement/updateFee')

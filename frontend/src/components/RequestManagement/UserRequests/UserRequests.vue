@@ -7,6 +7,7 @@
           <tr>
             <th class="table__head table__head--id"></th>
             <th class="table__head table__head--purpose">Purpose</th>
+            <th class="table__head">Token Address</th>
             <th class="table__head">Amount Asked</th>
             <th class="table__head">Payback Amount</th>
             <th class="table__head table__head--state">State</th>
@@ -21,6 +22,7 @@
           >
             <td class="table__data table__data--id">{{ index + 1 }}</td>
             <td class="table__data table__data--purpose">{{ item.purpose }}</td>
+            <td class="table__data">{{ item.tokenAddress }}</td>
             <td class="table__data">{{ item.askAmount }} ETH</td>
             <td class="table__data">{{ item.paybackAmount }} ETH</td>
             <td class="table__data">{{ item.status }}</td>
