@@ -33,7 +33,7 @@
   all: unset;
   height: 50px;
   width: 320px;
-  background-color: $bg-blue;
+  background-color: $bg-orange;
   outline: none;
   cursor: pointer;
   display: flex;
@@ -130,8 +130,9 @@
   width: 400px;
   height: 465px;
   border-radius: 4px;
-  background-color: $bg-white;
-  box-shadow: 0 0 20px 0 $card-shadow;
+  // background-color: transparent;
+  background-color: #0d0d0d85;
+  border: $card-shadow 1px solid;
   display: grid;
   justify-items: center;
 
@@ -170,6 +171,18 @@
     align-items: center;
   }
 
+  &--newOffer {
+    position: absolute;
+    top: 100%;
+    bottom: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 669px;
+    width: 669px;
+    grid-template-rows: repeat(4, 1fr);
+    align-items: center;
+  }
+
   &__title-section {
     height: 100%;
     display: flex;
@@ -187,12 +200,12 @@
   width: 100%;
   border-collapse: collapse;
   border-radius: 4px;
-  background-color: $bg-white;
+  background-color: 'transparent';
 
   &__wrapper {
     border: 1px solid #dfdfdf;
     border-radius: 4px;
-    box-shadow: 0 24px 30px 0 $card-shadow;
+    // box-shadow: 0 24px 30px 0 $card-shadow;
     transition: opacity 0.3s ease-out;
 
     &--hide {

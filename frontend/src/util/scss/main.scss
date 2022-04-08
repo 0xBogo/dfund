@@ -12,7 +12,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: 'Roboto Condensed', sans-serif;
-  background-color: $bg-body;
+  // background: $bg-body;
+  // background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(19,19,37,1) 77%, rgba(116,85,5,1) 100%);
+  background: url(assets/Screenshot_1.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat no-repeat;
 }
 
 a {
@@ -29,8 +33,7 @@ ul {
   left: 0;
   height: $navbar-height;
   width: 100%;
-  background-color: $bg-white;
-  box-shadow: 0 4px 20px 0 rgba(255, 255, 255, $alpha: 0.5);
+  background-color: transparent;
   z-index: 998;
 
   &__left {
@@ -73,13 +76,14 @@ ul {
 
   &__active {
     font-weight: 700;
+    color: $bg-orange;
   }
 }
 
 .content {
   position: relative;
-  top: 100px;
-  min-height: $content-height;
+  margin-top: 100px;
+  margin-bottom: 50px;
 
   > .errorContent {
     height: $content-height;
