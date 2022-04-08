@@ -301,6 +301,12 @@
   }
 }
 
+.landingPage {
+  &__bulletpoints {
+    color: white;
+  }
+}
+
 // layout changes for mobile device(s)
 @media (max-width: 900px) {
   .card {
