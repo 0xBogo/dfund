@@ -1,55 +1,55 @@
 <template>
-  <div class="requests">
+  <div class="offers">
     <div
-      class="title requests__title"
-      v-bind:class="{ requests__hidden: createActive }"
+      class="title offers__title"
+      v-bind:class="{ offers__hidden: createOfferActive }"
       >{{ title }}</div
     >
     <div
-      class="requests__create"
-      v-if="$route.name === 'userRequests'"
-      v-bind:class="{ requests__hidden: createActive }"
-      @click="createActive = true"
-      >Create Lending Request</div
+      class="offers__create"
+      v-if="$route.name === 'userBorrowOffers'"
+      v-bind:class="{ offers__hidden: createOfferActive }"
+      @click="createOfferActive = true"
+      >Create Borrowing Offer</div
     >
     <div
-      class="requests__children"
-      v-bind:class="{ requests__hidden: createActive }"
+      class="offers__children"
+      v-bind:class="{ offers__hidden: createOfferActive }"
     >
       <router-view />
     </div>
-    <CreateRequest
-      class="requests__createForm"
-      v-bind:class="{ requests__hidden: !createActive }"
-      v-on:closeRequestCreation="close"
+    <CreateOffer
+      class="offers__createForm"
+      v-bind:class="{ offers__hidden: !createOfferActive }"
+      v-on:closeOfferCreation="close"
     />
   </div>
 </template>
 
 <script>
-import CreateRequest from '../components/RequestManagement/CreateRequest/NewRequest'
+import CreateOffer from '../components/RequestManagement/CreateOffer/NewOffer'
 
 export default {
   components: {
-    CreateRequest
+    CreateOffer,
   },
   data() {
     return {
       title: '',
-      createActive: false
+      createOfferActive: false
     }
   },
   methods: {
     setTitle() {
-      this.title = 'My Requests'
+      this.title = 'My Offers'
 
       const route = this.$route.name
-      if (route === 'allRequests') {
-        this.title = 'Open Lending Requests'
+      if (route === 'allBorrowOffers') {
+        this.title = 'Open Borrowing Offers'
       }
     },
     close() {
-      this.createActive = false
+      this.createOfferActive = false
     },
   },
   mounted() {
@@ -66,7 +66,7 @@ export default {
 <style lang="scss">
 @import '../util/scss/variables';
 
-.requests {
+.offers {
   padding-top: 52px;
   display: grid;
   grid-template-columns: auto 49px 1007px 49px auto;
