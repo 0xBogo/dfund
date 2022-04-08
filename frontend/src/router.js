@@ -50,42 +50,11 @@ const router = new Router({
             import(
               /* webpackChunkName: "UserRequests" */ './components/RequestManagement/UserRequests/UserRequests'
             ),
-        }
+        },
       ],
       beforeEnter(to, from, next) {
         if (to.path === '/requests') {
           next({ name: 'allRequests' })
-        } else {
-          next()
-        }
-      },
-    },
-    {
-      path: '/offers',
-      name: 'offers',
-      component: () =>
-        import(/* webpackChunkName: "Offers" */ './views/Offers.vue'),
-      children: [
-        {
-          path: 'allBorrowOffers',
-          name: 'allBorrowOffers',
-          component: () =>
-            import(
-              /* webpackChunkName: "AllBorrowOffers" */ './components/RequestManagement/AllBorrowOffers/AllBorrowOffers'
-            ),
-        },
-        {
-          path: 'userBorrowOffers',
-          name: 'userBorrowOffers',
-          component: () =>
-            import(
-              /* webpackChunkName: "UserBorrowOffers" */ './components/RequestManagement/UserBorrowOffers/UserBorrowOffers'
-            ),
-        }
-      ],
-      beforeEnter(to, from, next) {
-        if (to.path === '/offers') {
-          next({ name: 'allBorrowOffers' })
         } else {
           next()
         }

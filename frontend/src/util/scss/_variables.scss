@@ -4,20 +4,22 @@ $content-height: calc(100vh - 152px);
 $piechart-size: 156px;
 
 // color(s)
-$primary-text-color: #292929;
+$primary-text-color: #faf6f6;
 
 $card-shadow: rgba(225, 225, 225, 0.5);
 
-$bg-body: #fafafa;
+$bg-body: #1a1616;
 $bg-white: #ffffff;
 $bg-blue: #3b82ba;
-$bg-active: #92e76d;
+$bg-active: orange;
 $bg-gray: #bababa;
+$bg-orange: orange;
+$bg-progress: #000000;
 
 $piechart-fill-color: #3b82ba;
-$piechart-empty-color: #f0f0f0;
+$piechart-empty-color: #fcfcfc;
 
 $status-blue: #0984bf;
 $status-gray: #ebebeb;
 
-$status-text: #2c2e2f;
+$status-text: #e4eaec;

@@ -30,7 +30,7 @@ export default {
       const network = await Web3Service.getCurrentNetwork()
       const deployedNetwork = Object.keys(data.networks)
       payload.currentNetwork = Web3Service.getNetworkName(deployedNetwork[0])
-      console.log(network, data.networks);
+
       if (data.networks.hasOwnProperty(network)) {
         payload.invalidNetwork = false
         dispatch('ico/initializeIco', null, {
@@ -43,9 +43,6 @@ export default {
           root: true,
         })
         dispatch('requestManagement/getRequests', null, {
-          root: true,
-        })
-        dispatch('requestManagement/getOffers', null, {
           root: true,
         })
         accountListener()
